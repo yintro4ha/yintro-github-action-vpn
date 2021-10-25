@@ -1,0 +1,88 @@
+# action.yml
+name: 'Create vpn'
+description: 'Trigger vpn'
+inputs:
+  docker-port:
+    description: 'docker port'
+    required: true    
+  vpn-ip:
+    description: 'vpn ip address'
+    required: true
+  vpn-port:
+    description: 'vpn port'
+    required: true    
+  vpn-user:
+    description: 'vpn user'
+    required: true    
+  vpn-password:
+    description: 'vpn password'
+    required: true
+  vpn-token:
+    description: ""
+    required: true
+  proxy-ip:
+    description: 'proxy ip address'
+    required: true
+  proxy-prot:
+    description: 'proxy port'
+    required: true    
+  proxy-user:
+    description: 'proxy user'
+    required: true
+  proxy-password:
+    description: "proxy password"
+    required: true
+  jump-ip:
+    description: 'jump server ip'
+    required: true
+  jump-port:
+    description: 'jump server port'
+    required: true    
+  jump-user:
+    description: 'jump server user'
+    required: true
+  jump-password:
+    description: 'jump server password'
+    required: true
+  target-ip:
+    description: 'target server ip'
+    required: true
+  target-port:
+    description: 'target server port'
+    required: true    
+  target-user:
+    description: 'target server user'
+    required: true
+  target-password:
+    description: 'target server password'
+    required: true
+
+outputs:
+  job_status:
+    description: 'VPN  status'
+runs:
+  using: 'docker'
+  image: 'docker://yintro4ha/yintro-github-action-vpn:v1'
+  env:
+    DOCKER_PORT: ${{ inputs.docker-port}}
+    VPN_IP: ${{ inputs.vpn-ip}}
+    VPN_PORT: ${{ inputs.vpn-port}}
+    VPN_USER: ${{ inputs.vpn-user}}
+    VPN_PASSWORD: ${{ inputs.vpn-password}}
+    VPN_TOKEN: ${{ inputs.vpn-token}}
+    PROXY_IP: ${{ inputs.proxy-ip}}
+    PROXY_PORT: ${{ inputs.proxy-prot}}
+    POXY_USER: ${{ inputs.proxy-user}}
+    PROXY_PASSWORD: ${{ inputs.proxy-password}}
+    JUMP_IP: ${{ inputs.jump-ip}}
+    JUMP_PORT: ${{ inputs.jump-port}}
+    JUMP_USER: ${{ inputs.jump-user}}
+    JUMP_PASSWORD: ${{ inputs.jump-password}}
+    TARGET_IP: ${{ inputs.target-ip}}
+    TARGET_PORT: ${{ inputs.target-port}}
+    TARGET_USER: ${{ inputs.target-user}}
+    TARGET_PASSWORD: ${{ inputs.target-password}}
+
+branding:
+  icon: 'arrow-right-circle'
+  color: 'blue'

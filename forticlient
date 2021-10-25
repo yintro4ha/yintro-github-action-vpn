@@ -1,0 +1,64 @@
+#!/usr/bin/expect -f
+
+set timeout 60
+
+set INET_IP [exec cat /root/ip.txt]
+
+spawn "/usr/share/forticlient/opt/forticlient-sslvpn/64bit/forticlientsslvpn_cli" --proxy $env(PROXY_IP):$env(PROXY_PORT) --proxyuser $env(POXY_USER) --server $env(VPN_IP):$env(VPN_PORT) --vpnuser $env(VPN_USER) --keepalive
+
+# Send command
+expect -exact "Password for proxy:"
+send -- "$env(PROXY_PASSWORD)\n"
+
+# Send command
+expect -exact "Password for VPN:"
+send -- "$env(VPN_PASSWORD)\n"
+
+# expect -exact "Setting up the tunnel"
+expect -exact "STATUS::Connecting..."
+
+# In case of invalid certificate
+expect -exact "Would you like to connect to this server? (Y/N)" {
+  send -- "Y\n"
+}
+
+expect "A FortiToken code is required for SSL-VPN login authentication." {
+  # send_user "Enter the token: "
+  # gets stdin token
+  send -- "$env(VPN_TOKEN)\r"
+}
+
+# Expect tunnel to actually start
+expect {
+  "STATUS::Tunnel running" {
+  } timeout {
+    send_user -- "Failed to bring tunnel up after 60s\n"
+    exit 1
+  }
+}
+
+sleep 5
+spawn "/usr/bin/ssh" -4 \
+    -L $INET_IP:$env(DOCKER_PORT):$env(TARGET_IP):$env(TARGET_PORT) \
+    $env(JUMP_USER)@$env(JUMP_IP)
+
+expect -exact "Are you sure you want to continue connecting (yes/no)?"
+send -- "yes\n"
+
+expect -exact "$env(JUMP_USER)@$env(JUMP_IP)'s password:"
+send -- "$env(JUMP_PASSWORD)\n"
+
+sleep 5
+send -- "top"
+interact
+
+# Expect tunnel to stop but not exit
+set timeout -1
+expect {
+  "STATUS::Tunnel closed" {
+    exit 1
+  }
+  eof {
+    exit
+  }
+}

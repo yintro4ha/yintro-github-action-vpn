@@ -84,5 +84,5 @@ runs:
     TARGET_PASSWORD: ${{ inputs.target-password}}
 
 branding:
-  icon: 'arrow-right-circle'
+  icon: 'cloud'
   color: 'blue'

@@ -2,9 +2,15 @@
 name: 'Create vpn'
 description: 'Trigger vpn'
 inputs:
-  docker-port:
-    description: 'docker port'
+  docker-port-1:
+    description: 'docker port 1'
     required: true    
+  docker-port-2:
+    description: 'docker port 2'
+    required: true        
+docker-port-3:
+    description: 'docker port 3'
+    required: true            
   vpn-ip:
     description: 'vpn ip address'
     required: true
@@ -44,19 +50,25 @@ inputs:
   jump-password:
     description: 'jump server password'
     required: true
-  target-ip:
-    description: 'target server ip'
+  target-ip-1:
+    description: 'target server ip 1'
     required: true
-  target-port:
-    description: 'target server port'
+  target-port-1:
+    description: 'target server port 1'
     required: true    
-  target-user:
-    description: 'target server user'
+  target-ip-2:
+    description: 'target server ip 2'
     required: true
-  target-password:
-    description: 'target server password'
+  target-port-2:
+    description: 'target server port 2'
+    required: true        
+  target-ip-3:
+    description: 'target server ip 3'
     required: true
-
+  target-port-3:
+    description: 'target server port 3'
+    required: true     
+    
 outputs:
   job_status:
     description: 'VPN  status'
@@ -64,7 +76,9 @@ runs:
   using: 'docker'
   image: 'docker://yintro4ha/yintro-github-action-vpn:v1'
   env:
-    DOCKER_PORT: ${{ inputs.docker-port}}
+    DOCKER_PORT_1: ${{ inputs.docker-port-1}}
+    DOCKER_PORT_2: ${{ inputs.docker-port-2}}
+    DOCKER_PORT_3: ${{ inputs.docker-port-3}}
     VPN_IP: ${{ inputs.vpn-ip}}
     VPN_PORT: ${{ inputs.vpn-port}}
     VPN_USER: ${{ inputs.vpn-user}}
@@ -78,10 +92,12 @@ runs:
     JUMP_PORT: ${{ inputs.jump-port}}
     JUMP_USER: ${{ inputs.jump-user}}
     JUMP_PASSWORD: ${{ inputs.jump-password}}
-    TARGET_IP: ${{ inputs.target-ip}}
-    TARGET_PORT: ${{ inputs.target-port}}
-    TARGET_USER: ${{ inputs.target-user}}
-    TARGET_PASSWORD: ${{ inputs.target-password}}
+    TARGET_IP_1: ${{ inputs.target-ip-1}}
+    TARGET_PORT_1: ${{ inputs.target-port-1}}
+    TARGET_IP_2: ${{ inputs.target-ip-2}}
+    TARGET_PORT_2: ${{ inputs.target-port-2}}
+    TARGET_IP_3: ${{ inputs.target-ip-3}}
+    TARGET_PORT_3: ${{ inputs.target-port-3}}
 
 branding:
   icon: 'cloud'

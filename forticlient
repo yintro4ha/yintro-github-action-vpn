@@ -38,7 +38,7 @@ expect {
 }
 
 sleep 5
-spawn "/usr/bin/ssh" -4 \
+spawn "/usr/bin/ssh" -o PreferredAuthentications=password -o PubkeyAuthentication=no -4 \
     -L $INET_IP:$env(DOCKER_PORT_1):$env(TARGET_IP_1):$env(TARGET_PORT_1) \
     -L $INET_IP:$env(DOCKER_PORT_2):$env(TARGET_IP_2):$env(TARGET_PORT_2) \
     -L $INET_IP:$env(DOCKER_PORT_3):$env(TARGET_IP_3):$env(TARGET_PORT_3) \
